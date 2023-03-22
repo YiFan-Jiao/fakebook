@@ -2,12 +2,14 @@
 
 const myImg = document.querySelector('.my-img');
 const userInfo = document.querySelector('.user-info');
+const imgName = document.querySelector('.img-name');
 
 const postBtn = document.querySelector('.rel-post');
 const textareaInput = document.querySelector('textarea');
 const jsBox = document.querySelector('.js-box');
 const whiteBox = document.querySelector('.white-box');
 const postImg = document.querySelector('.post-img');
+const iconImg = document.querySelector('.fa-image')
 
 const uID = document.querySelector('.u-id');
 const uName = document.querySelector('.u-name');
@@ -103,12 +105,16 @@ class Subscriber extends User {
 
 }
 
-
 const reader = new FileReader();
 let imgSrc = '';
 
-postImg.onchange = function() {
+iconImg.addEventListener('click', () => {
+    postImg.click();
+ });
+
+ postImg.onchange = function() {
     const imgFile = this.files[0];
+    imgName.innerHTML = this.files[0].name;
     reader.readAsDataURL(imgFile);
 }
 
@@ -143,11 +149,8 @@ function makediv(array) {
 }
 
 postBtn.addEventListener('click', () => {
-    //console.log(textareaInput.value.trim());
-
     if(textareaInput.value.trim()) {
         const user = new User('001','Yifan Jiao','Yifan','jiao1995cn@gmail.com',dates,textareaInput.value.trim(),imgSrc);
-        //console.log(user)
         contactsArray.unshift(user);
     }
     makediv(contactsArray);
@@ -157,7 +160,6 @@ const pages = ['red','green','blue','orange']
 const groups = ['color','car','fish','cat']
 
 const subscriber = new Subscriber('001','YifaoJiao','Yifan','jiao1995cn@gmail.com',dates,textareaInput.value.trim(),imgSrc,pages,groups,0)
-//console.log(subscriber.getInfo().split(' '));
 let changeNum = '';
 if(subscriber.getInfo().split(' ')[5] === '0') {
     changeNum = 'No';
