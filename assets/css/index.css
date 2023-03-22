@@ -34,7 +34,6 @@ header {
     gap: 20px;
     color: #fff;
     font-size: 22px;
-
 }
 
 .page-name {
@@ -52,7 +51,6 @@ header {
     display: flex; 
     margin-top: 50px;
     justify-content: center;
-
 }
 
 textarea {
@@ -107,7 +105,6 @@ textarea {
     display: flex; 
     flex-direction: column;
     flex-wrap: nowrap;
-    
 }
 
 .white-box {
@@ -125,7 +122,6 @@ textarea {
     justify-content: space-between;
     height: 60px;
     margin-bottom: 15px;
-    
 }
 
 .head-name {
@@ -135,7 +131,6 @@ textarea {
     display: flex;
     align-items: center;
     text-align: center;
-    
 }
 
 .head-name img {
@@ -172,4 +167,22 @@ textarea {
     max-width: 570px;
     height: auto;
     border-radius: 10px;
+}
+
+.xx{
+    position: relative;
+}
+
+.user-info {
+    width: 300px;
+    height: auto;
+    background-color: #fff;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #000;
+    padding: 15px;
+    display: none;
 }
