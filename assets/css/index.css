@@ -105,12 +105,13 @@ textarea {
 
 .js-box {
     display: flex; 
-    justify-content: center;
-    
+    flex-direction: column;
+    flex-wrap: nowrap;
     
 }
 
 .white-box {
+    margin: auto;
     width: 600px;
     border-radius: 10px;
     height: auto;

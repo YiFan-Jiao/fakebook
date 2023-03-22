@@ -1,92 +1,103 @@
 'use strict'
 
-const createBtn = document.querySelector('.create-button');
-const contactInput = document.querySelector('.contact-input');
+const postBtn = document.querySelector('.rel-post');
+const textareaInput = document.querySelector('textarea');
 const errorInfo = document.querySelector('.error-info');
-const bigCenter = document.querySelector('.big-center');
-const unit = document.querySelector('.Unit');
+const jsBox = document.querySelector('.js-box');
+const whiteBox = document.querySelector('.white-box');
 const result = document.querySelector('.result');
 
 let inputInfo = [];
 const contactsArray = [];
 
-class Contact {
+class User {
+    #id;
     #name;
-    #city;
+    #username;
     #email;
 
-    constructor(name,city,email) {
+    #date;
+    #text
+
+    constructor(id,name,username,email,date,text) {
+        this.#id = id;
         this.#name = name;
-        this.#city = city;
+        this.#username = username;
         this.#email = email;
+
+        this.#date = date;
+        this.#text = text;
+        
+    }
+
+    get getid() {
+        return this.#id
     }
 
     get getname() {
         return this.#name
     }
 
-    get getcity() {
-        return this.#city
+    get getusername() {
+        return this.#username
     }
 
     get getemail() {
         return this.#email
     }
+
+    get getdate() {
+        return this.#date
+    }
+
+    get gettext() {
+        return this.#text
+    }
+
+    getInfo () {
+        return `${this.getid} ${this.getname} ${this.getusername} ${this.getemail} ${this.getdate} ${this.gettext}`
+    }
 }
 
-createBtn.addEventListener('click', () => {
-    
-    // Divide input information into an array by commas
-    inputInfo = contactInput.value.trim().split(',');
+function makediv(array) {
+    jsBox.innerHTML = '';
+    console.log(array)
 
-    // Verify the format and create the object after it is correct. Push them 
-    // into array.
-    const verifyName = /^([A-Za-z]+\s?)*[A-Za-z]$/;
-    const verifyCity = /^([A-Za-z]+\s?)*[A-Za-z]$/;
-    const verifyEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    array.forEach(element => {
+        const contactDiv = document.createElement("div");
+        contactDiv.className = "white-box";
+        contactDiv.innerHTML = `<div class="box-head">
+                                    <div class="head-name">
+                                        <img src="./assets/image/my-img.jpg" alt="">${element.getusername}
+                                    </div>
+                                    <div class="head-date">
+                                        ${element.getdate}
+                                    </div>
+                                </div>
+                                <div class="box-content">
+                                    <div class="text-content">
+                                        ${element.gettext}
+                                    </div>
+                                    <div class="img-content">
+                                        <img src="./assets/image/my-img.jpg" alt="">
+                                    </div>
+                                </div>`
+        jsBox.appendChild(contactDiv);
+    });
 
-    if (verifyName.test(inputInfo[0]) && 
-        verifyCity.test(inputInfo[1]) && 
-        verifyEmail.test(inputInfo[2])) {
-        const contact = new Contact(inputInfo[0],inputInfo[1],inputInfo[2]);
-        errorInfo.style.visibility = 'hidden';
-        contactsArray.push(contact);
-    } else {
-        errorInfo.style.visibility = 'visible';
+
+}
+
+postBtn.addEventListener('click', () => {
+    console.log(textareaInput.value.trim());
+    const dates = `${(new Date()).getDate().toString().padStart(2, '0')} ${((new Date()).getMonth()+1).toString().padStart(2, '0')}, ${(new Date()).getFullYear()}`
+
+    if(textareaInput.value.trim()) {
+        const user = new User('001','Yifan Jiao','Yifan','jiao1995cn@gmail.com',dates,textareaInput.value.trim());
+        //console.log(user)
+        contactsArray.unshift(user);
     }
 
-    // Clear all the already added tontacts, loop through the array to create a 
-    // DIV of tontact, and add them.
-    function listContact(array) {
-        bigCenter.innerHTML = '';
-        array.forEach(element => {
-            const contactDiv = document.createElement("div");
-            contactDiv.className = "Unit";
-            contactDiv.innerHTML = `<div class="contact-name">Name: ${element.getname}</div>
-                                    <div class="contact-city">City: ${element.getcity}</div>
-                                    <div class="contact-email">Email: ${element.getemail}</div>`
-            bigCenter.appendChild(contactDiv);
-            result.innerHTML = `total: ${array.length}`;
-        });
-
-        // Get the divs for all contacts and add click delete events to them.
-        const allUnit = document.querySelectorAll('.Unit');
-        allUnit.forEach((element,index) => {
-            element.addEventListener('click', () => {
-                contactsArray.splice(index,1);
-                element.remove();
-                if(contactsArray.length === 0) {
-                    result.innerHTML = `Let's create contact information`;
-                } else {
-                    result.innerHTML = `total: ${contactsArray.length}`;
-                }
-                // After deletion, call listContact() again to readd the div of 
-                // all contacts
-                listContact(contactsArray);
-            });
-        });
-    }
-    
-    listContact(contactsArray);
+    makediv(contactsArray);
 });
 
