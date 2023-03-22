@@ -5,7 +5,11 @@ const textareaInput = document.querySelector('textarea');
 const errorInfo = document.querySelector('.error-info');
 const jsBox = document.querySelector('.js-box');
 const whiteBox = document.querySelector('.white-box');
-const result = document.querySelector('.result');
+const postImg = document.querySelector('.post-img');
+const showImg = document.querySelector('.showImg');
+
+
+
 
 let inputInfo = [];
 const contactsArray = [];
@@ -17,9 +21,10 @@ class User {
     #email;
 
     #date;
-    #text
+    #text;
+    #img;
 
-    constructor(id,name,username,email,date,text) {
+    constructor(id,name,username,email,date,text,img) {
         this.#id = id;
         this.#name = name;
         this.#username = username;
@@ -27,6 +32,8 @@ class User {
 
         this.#date = date;
         this.#text = text;
+        this.#img = img;
+        
         
     }
 
@@ -54,9 +61,29 @@ class User {
         return this.#text
     }
 
-    getInfo () {
-        return `${this.getid} ${this.getname} ${this.getusername} ${this.getemail} ${this.getdate} ${this.gettext}`
+    get getimg() {
+        return this.#img
     }
+
+    getInfo () {
+        return `${this.getid} ${this.getname} ${this.getusername} ${this.getemail} ${this.getdate} ${this.gettext} ${this.getimg}`
+    }
+}
+
+const reader = new FileReader();
+let imgSrc = '';
+
+postImg.onchange = function() {
+    const imgFile = this.files[0];
+    reader.readAsDataURL(imgFile);
+}
+
+reader.onload = function () {
+    //console.log(this.result);
+    //const img = new Image();
+    //img.src = this.result;
+    imgSrc = this.result
+    //showImg.appendChild(img)
 }
 
 function makediv(array) {
@@ -79,7 +106,7 @@ function makediv(array) {
                                         ${element.gettext}
                                     </div>
                                     <div class="img-content">
-                                        <img src="./assets/image/my-img.jpg" alt="">
+                                        <img src="${element.getimg}" alt="">
                                     </div>
                                 </div>`
         jsBox.appendChild(contactDiv);
@@ -93,7 +120,7 @@ postBtn.addEventListener('click', () => {
     const dates = `${(new Date()).getDate().toString().padStart(2, '0')} ${((new Date()).getMonth()+1).toString().padStart(2, '0')}, ${(new Date()).getFullYear()}`
 
     if(textareaInput.value.trim()) {
-        const user = new User('001','Yifan Jiao','Yifan','jiao1995cn@gmail.com',dates,textareaInput.value.trim());
+        const user = new User('001','Yifan Jiao','Yifan','jiao1995cn@gmail.com',dates,textareaInput.value.trim(),imgSrc);
         //console.log(user)
         contactsArray.unshift(user);
     }
